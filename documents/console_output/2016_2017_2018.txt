@@ -1,0 +1,124 @@
+E:\Code\venv\Scripts\python.exe E:\Code\Git\pipeline\code\main.py
+{}
+Pipeline runs with config: {'sampling_frequency': '30S', 'imputations_technique_str': 'pad', 'imputation_technique_num': 'pad', 'ts_fresh_window_length': 3, 'ts_fresh_window_end': 3, 'ts_fresh_minimal_features': True, 'target_col': 'components.cont.conditions.logic.errorCode', 'target_errorCode': 209, 'balance': True, 'evaluation_metrics': 'accuracy', 'cv': 5, 'ml_algorithm': LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)}
+Pattern Mining
+2. Data merge
+2020-07-03 16:10:52 [START] create_global_dataframe
+create_global_dataframe
+parquet read
+2020-07-03 16:10:53 [END] 'create_global_dataframe'   0 min 0.12 GB > 0.21 GB; df size:  0.0 GB; columns: 118
+3. Data cleansing
+2020-07-03 16:10:53 [START] value_filter
+value_filter
+parquet created
+2020-07-04 05:00:27 [END] 'value_filter'  770 min 0.21 GB > 0.36 GB; df size:  0.0 GB; columns: 87
+2020-07-04 05:00:27 [START] adjust_sampling_frequency
+adjust_sampling_frequency
+calculated partitions: 22
+Partitions 22 ... repartitioning ...
+Partitions: 66
+rows: 10712052 >> 2197815
+cols: 87 >> 87
+parquet created
+2020-07-04 12:55:29 [END] 'adjust_sampling_frequency'  475 min 0.36 GB > 10.74 GB; df size:  0.0 GB; columns: 87
+2020-07-04 12:55:29 [START] impute_missing_values
+impute_missing_values
+calculated partitions: 22
+Partitions 22 ... repartitioning ...
+Partitions: 88
+parquet created
+2020-07-04 13:13:21 [END] 'impute_missing_values'  18 min 10.74 GB > 17.12 GB; df size:  0.0 GB; columns: 87
+2020-07-04 13:13:24 [START] slice_valid_data
+slice_valid_data
+First valid index: 2016-08-11 13:24:30
+Last valid index 2018-09-09 22:59:30
+parquet created
+2020-07-04 13:23:43 [END] 'slice_valid_data'  10 min 9.35 GB > 9.36 GB; df size:  0.0 GB; columns: 87
+2020-07-04 13:23:43 [START] one_hot_encode_categories
+one_hot_encode_categories
+E:\Code\venv\lib\site-packages\dask\dataframe\multi.py:1093: UserWarning: Concatenating dataframes with unknown divisions.
+We're assuming that the indexes of each dataframes are
+ aligned. This assumption is not generally safe.
+  warnings.warn(
+Number of Columns for one hot encoding : 61
+Partitions 88 ... repartitioning ...
+Partitions: 87
+parquet created
+2020-07-04 13:47:53 [END] 'one_hot_encode_categories'  24 min 9.36 GB > 9.39 GB; df size:  0.0 GB; columns: 2064
+2020-07-04 13:47:53 [START] remove_error_codes
+2020-07-04 13:47:53 [END] 'remove_error_codes'   0 min 9.39 GB > 9.39 GB; df size:  0.0 GB; columns: 2064
+4. Feature engineering
+2020-07-04 13:47:53 [START] extract_windows_and_features
+Number of errorCode Features to process: 8
+Number of Default Features to process: 11
+Number of total Features to process: 19
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5743.81it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6004.72it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6289.75it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5743.17it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6004.51it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5742.81it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 4892.57it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5743.32it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5744.12it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5503.98it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6004.92it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6005.36it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6290.09it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6004.36it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5503.97it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5743.81it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6004.38it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 5743.12it/s]
+Feature Extraction: 100%|██████████| 2064/2064 [00:00<00:00, 6004.77it/s]
+Number of Features extraced: 16
+2020-07-04 14:23:17 [END] 'extract_windows_and_features'  35 min 9.39 GB > 6.76 GB; df size:  0.0 GB; columns: 16518
+5. ML evaluation
+2020-07-04 14:23:20 [START] standardize_features
+2020-07-04 14:23:26 [END] 'standardize_features'   0 min 0.42 GB > 0.43 GB; df size:  0.0 GB; columns: 16518
+2020-07-04 14:23:26 [START] remove_global_timestamp
+2020-07-04 14:23:26 [END] 'remove_global_timestamp'   0 min 0.43 GB > 0.43 GB; df size:  0.0 GB; columns: 16513
+2020-07-04 14:23:27 [START] get_x_y
+2020-07-04 14:23:27 [END] 'get_x_y'   0 min 0.43 GB > 0.43 GB; df size:  0.0 GB;
+2020-07-04 14:23:27 [START] eval
+Configurations: {'sampling_frequency': '30S', 'imputations_technique_str': 'pad', 'imputation_technique_num': 'pad', 'ts_fresh_window_length': 3, 'ts_fresh_window_end': 3, 'ts_fresh_minimal_features': True, 'target_col': 'components.cont.conditions.logic.errorCode', 'target_errorCode': 209, 'balance': True, 'evaluation_metrics': 'accuracy', 'cv': 5, 'ml_algorithm': LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)}
+fit_time
+M: 0.018752384185791015
+SD: 0.00624930128529493
+score_time
+M: 0.018750667572021484
+SD: 0.006249435694180309
+test_accuracy
+M: 0.4666666666666666
+SD: 0.2666666666666667
+test_precision
+M: 0.4333333333333333
+SD: 0.2494438257849294
+test_recall
+M: 0.8
+SD: 0.4000000000000001
+test_f1_score
+M: 0.5533333333333333
+SD: 0.2978441053825157
+Traceback (most recent call last):
+  File "E:\Code\Git\pipeline\code\main.py", line 14, in <module>
+    run_pipeline(configs_pipeline[0], apply_data_extraction=False)
+  File "E:\Code\Git\pipeline\code\pipeline.py", line 81, in run_pipeline
+    scores = eval(df, y, config=config, crossvalidation=c.cv, clf=c.ml_algorithm)
+  File "E:\Code\Git\pipeline\code\monitoring\time_it.py", line 38, in wrap
+    result = f(*args, **kw)
+  File "E:\Code\Git\pipeline\code\ml_evaluation\eval.py", line 44, in eval
+    df_weights.to_excel(str(excel_weights_path) + '_pw' + str(config['ts_fresh_window_end']) + '_rw' +
+  File "E:\Code\venv\lib\site-packages\pandas\core\generic.py", line 2175, in to_excel
+    formatter.write(
+  File "E:\Code\venv\lib\site-packages\pandas\io\formats\excel.py", line 718, in write
+    raise ValueError(
+ValueError: This sheet is too large! Your sheet size is: 5, 16512 Max sheet size is: 1048576, 16384
+
+Process finished with exit code 1

@@ -1,0 +1,89 @@
+2. Data merge
+['../data/Buffer_Data\\export-wf2017-01-02.parquet.gzip', '../data/Buffer_Data\\export-wf2017-01-09.parquet.gzip', '../data/Buffer_Data\\export-wf2017-01-16.parquet.gzip', '../data/Buffer_Data\\export-wf2017-01-30.parquet.gzip', '../data/Buffer_Data\\export-wf2017-02-06.parquet.gzip', '../data/Buffer_Data\\export-wf2017-02-13.parquet.gzip', '../data/Buffer_Data\\export-wf2017-02-20.parquet.gzip', '../data/Buffer_Data\\export-wf2017-02-27.parquet.gzip', '../data/Buffer_Data\\export-wf2017-03-06.parquet.gzip', '../data/Buffer_Data\\export-wf2017-03-13.parquet.gzip', '../data/Buffer_Data\\export-wf2017-03-20.parquet.gzip', '../data/Buffer_Data\\export-wf2017-03-27.parquet.gzip', '../data/Buffer_Data\\export-wf2017-04-03.parquet.gzip', '../data/Buffer_Data\\export-wf2017-04-10.parquet.gzip', '../data/Buffer_Data\\export-wf2017-04-17.parquet.gzip', '../data/Buffer_Data\\export-wf2017-04-24.parquet.gzip', '../data/Buffer_Data\\export-wf2017-05-01.parquet.gzip', '../data/Buffer_Data\\export-wf2017-05-08.parquet.gzip', '../data/Buffer_Data\\export-wf2017-05-15.parquet.gzip', '../data/Buffer_Data\\export-wf2017-05-22.parquet.gzip', '../data/Buffer_Data\\export-wf2017-05-29.parquet.gzip', '../data/Buffer_Data\\export-wf2017-06-05.parquet.gzip', '../data/Buffer_Data\\export-wf2017-06-12.parquet.gzip', '../data/Buffer_Data\\export-wf2017-06-19.parquet.gzip', '../data/Buffer_Data\\export-wf2017-06-26.parquet.gzip', '../data/Buffer_Data\\export-wf2017-07-03.parquet.gzip', '../data/Buffer_Data\\export-wf2017-07-10.parquet.gzip', '../data/Buffer_Data\\export-wf2017-07-24.parquet.gzip', '../data/Buffer_Data\\export-wf2017-07-31.parquet.gzip', '../data/Buffer_Data\\export-wf2017-08-07.parquet.gzip', '../data/Buffer_Data\\export-wf2017-08-14.parquet.gzip', '../data/Buffer_Data\\export-wf2017-08-21.parquet.gzip', '../data/Buffer_Data\\export-wf2017-08-28.parquet.gzip', '../data/Buffer_Data\\export-wf2017-09-04.parquet.gzip', '../data/Buffer_Data\\export-wf2017-09-11.parquet.gzip', '../data/Buffer_Data\\export-wf2017-09-18.parquet.gzip', '../data/Buffer_Data\\export-wf2017-09-25.parquet.gzip', '../data/Buffer_Data\\export-wf2017-10-02.parquet.gzip', '../data/Buffer_Data\\export-wf2017-10-09.parquet.gzip', '../data/Buffer_Data\\export-wf2017-10-16.parquet.gzip', '../data/Buffer_Data\\export-wf2017-10-23.parquet.gzip', '../data/Buffer_Data\\export-wf2017-10-30.parquet.gzip', '../data/Buffer_Data\\export-wf2017-11-06.parquet.gzip', '../data/Buffer_Data\\export-wf2017-11-13.parquet.gzip', '../data/Buffer_Data\\export-wf2017-11-20.parquet.gzip', '../data/Buffer_Data\\export-wf2017-11-27.parquet.gzip', '../data/Buffer_Data\\export-wf2017-12-04.parquet.gzip', '../data/Buffer_Data\\export-wf2017-12-11.parquet.gzip', '../data/Buffer_Data\\export-wf2017-12-18.parquet.gzip']
+2020-06-22 20:06:30 [START] create_global_dataframe
+Partitions 49 ... repartitioning ...
+Partitions: 125
+Setting index ...
+Partitions 125 ... repartitioning ...
+Partitions: 125
+Removing duplicates ...
+Partitions 125 ... repartitioning ...
+Partitions: 125
+parquet created
+2020-06-22 20:11:18 [END] 'create_global_dataframe'   5 min 0.11 GB > 0.21 GB; df size:   0.0 GB
+3. Data cleansing
+2020-06-22 20:11:18 [START] value_filter
+parquet created
+2020-06-22 20:27:26 [END] 'value_filter'  16 min 0.21 GB > 0.33 GB; df size:   0.0 GB
+0 days 00:00:05.975102
+2020-06-22 20:29:34 [START] adjust_sampling_frequency
+calculated partitions: 6 ... However, I use following nr of partions: 401
+Partitions 403 ... repartitioning ...
+Partitions: 101
+5123485 >> 5123486
+parquet created
+2020-06-22 21:02:19 [END] 'adjust_sampling_frequency'  33 min 0.32 GB > 3.04 GB; df size:   0.0 GB
+0 days 00:00:05.975104
+2020-06-22 21:07:40 [START] slice_valid_data
+First valid index: 2017-03-22 06:14:00
+Last valid index 2017-11-06 12:15:00
+parquet created
+2020-06-22 21:19:20 [END] 'slice_valid_data'  12 min 2.94 GB > 3.01 GB; df size:   0.0 GB
+2020-06-22 21:19:20 [START] impute_missing_values
+calculated partitions: 5 ... However, I use following nr of partions: 401
+Partitions 401 ... repartitioning ...
+Partitions: 134
+distributed.worker - WARNING - gc.collect() took 1.422s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.64 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Worker is at 83% memory usage. Pausing worker.  Process memory: 6.64 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.64 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.64 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.68 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.77 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.80 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.81 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.78 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.81 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.98 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.02 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.03 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.06 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.09 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.12 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.24 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.28 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.41 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.30 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.48 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.32 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.42 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.55 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.39 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.62 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 7.55 GB -- Worker memory limit: 8.00 GB
+distributed.nanny - WARNING - Worker exceeded 95% memory budget. Restarting
+distributed.nanny - WARNING - Restarting worker
+distributed.nanny - WARNING - Worker exceeded 95% memory budget. Restarting
+distributed.nanny - WARNING - Restarting worker
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.02 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.49 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - gc.collect() took 1.812s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - Worker is at 81% memory usage. Pausing worker.  Process memory: 6.49 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.48 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.48 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.46 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.50 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.58 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.62 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.63 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Memory use is high but worker has no data to store to disk.  Perhaps some other process is leaking memory?  Process memory: 6.60 GB -- Worker memory limit: 8.00 GB
+distributed.worker - WARNING - Worker is at 23% memory usage. Resuming worker. Process memory: 1.89 GB -- Worker memory limit: 8.00 GB
+parquet created
+2020-06-22 22:06:35 [END] 'impute_missing_values'  47 min 3.01 GB > 12.1 GB; df size:   0.0 GB
+2020-06-22 22:06:36 [START] one_hot_encode_categories
+Number of non-numeric Columns: 44
+parquet created
+2020-06-23 02:14:08 [END] 'one_hot_encode_categories'  248 min 10.68 GB > 14.79 GB; df size:   0.0 GB
+2020-06-23 02:14:08 [START] remove_error_codes
+
+Process finished with exit code -1

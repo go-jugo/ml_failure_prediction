@@ -1,0 +1,252 @@
+E:\Code\venv\Scripts\python.exe E:\Code\Git\pipeline\code\main.py
+{}
+Pipeline runs with config: {'sampling_frequency': '30S', 'imputations_technique_str': 'pad', 'imputation_technique_num': 'pad', 'ts_fresh_window_length': 3, 'ts_fresh_window_end': 1, 'ts_fresh_minimal_features': True, 'target_col': 'components.cont.conditions.logic.errorCode', 'target_errorCode': 351, 'balance': True, 'evaluation_metrics': 'accuracy', 'cv': 5, 'ml_algorithm': LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)}
+Pattern Mining
+2. Data merge
+2020-07-06 08:12:23 [START] create_global_dataframe
+create_global_dataframe
+Partitions 167 ... repartitioning ...
+Partitions: 401
+Setting index ...
+Partitions 401 ... repartitioning ...
+Partitions: 401
+Removing duplicates ...
+Partitions 401 ... repartitioning ...
+Partitions: 401
+parquet created
+2020-07-06 10:44:00 [END] 'create_global_dataframe'  152 min 0.12 GB > 0.34 GB; df size:  0.0 GB; columns: 118
+3. Data cleansing
+2020-07-06 10:44:00 [START] value_filter
+value_filter
+parquet created
+2020-07-07 09:39:59 [END] 'value_filter'  1376 min 0.34 GB > 0.59 GB; df size:  0.0 GB; columns: 95
+2020-07-07 09:39:59 [START] adjust_sampling_frequency
+adjust_sampling_frequency
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.worker - WARNING - gc.collect() took 1.891s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.547s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.500s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.453s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.531s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.422s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.406s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.625s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.359s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.328s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.281s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.297s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.250s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.297s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.297s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.188s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.281s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.219s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.125s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.125s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.125s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.172s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.094s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.078s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.047s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.219s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.047s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.078s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.062s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.188s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.047s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.047s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.062s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.031s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.016s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.031s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+distributed.worker - WARNING - gc.collect() took 1.156s. This is usually a sign that some tasks handle too many Python objects at the same time. Rechunking the work into smaller tasks might help.
+calculated partitions: 35
+Partitions 35 ... repartitioning ...
+Partitions: 105
+rows: 16802649 >> 3440496
+cols: 95 >> 95
+parquet created
+2020-07-08 01:58:14 [END] 'adjust_sampling_frequency'  978 min 0.59 GB > 18.17 GB; df size:  0.0 GB; columns: 95
+2020-07-08 01:58:14 [START] impute_missing_values
+impute_missing_values
+calculated partitions: 35
+Partitions 35 ... repartitioning ...
+Partitions: 140
+parquet created
+2020-07-08 02:50:03 [END] 'impute_missing_values'  52 min 18.17 GB > 15.82 GB; df size:  0.0 GB; columns: 95
+2020-07-08 02:51:46 [START] slice_valid_data
+slice_valid_data
+First valid index: 2018-11-11 21:06:00
+Last valid index 2019-11-15 10:40:00
+parquet created
+2020-07-08 03:10:13 [END] 'slice_valid_data'  18 min 15.87 GB > 15.87 GB; df size:  0.0 GB; columns: 95
+2020-07-08 03:10:13 [START] one_hot_encode_categories
+one_hot_encode_categories
+E:\Code\venv\lib\site-packages\dask\dataframe\multi.py:1093: UserWarning: Concatenating dataframes with unknown divisions.
+Number of Columns for one hot encoding : 68
+We're assuming that the indexes of each dataframes are
+ aligned. This assumption is not generally safe.
+  warnings.warn(
+Partitions 140 ... repartitioning ...
+Partitions: 15
+parquet created
+2020-07-08 03:40:40 [END] 'one_hot_encode_categories'  30 min 15.87 GB > 15.9 GB; df size:  0.0 GB; columns: 976
+2020-07-08 03:40:40 [START] remove_error_codes
+2020-07-08 03:40:40 [END] 'remove_error_codes'   0 min 15.9 GB > 15.9 GB; df size:  0.0 GB; columns: 976
+4. Feature engineering
+2020-07-08 03:40:40 [START] extract_windows_and_features
+Number of errorCode Features to process: 37
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+distributed.utils_perf - WARNING - full garbage collections took 10% CPU time recently (threshold: 10%)
+Number of Default Features to process: 40
+Number of total Features to process: 77
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5679.53it/s]
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5678.06it/s]
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5678.57it/s]
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5678.41it/s]
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5678.84it/s]
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5678.20it/s]
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5204.84it/s]
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5678.54it/s]
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5678.91it/s]
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5680.83it/s]
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5207.06it/s]
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5205.43it/s]
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5206.27it/s]
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5205.33it/s]
+Empty
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5205.46it/s]
+Empty
+Empty
+Empty
+Empty
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5205.25it/s]
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5679.48it/s]
+Empty
+Feature Extraction: 100%|██████████| 976/976 [00:00<00:00, 5206.64it/s]
+Empty
+Empty
+Number of Features extraced: 2
+2020-07-08 07:58:30 [END] 'extract_windows_and_features'  258 min 15.9 GB > 11.45 GB; df size:  0.0 GB; columns: 7814
+5. ML evaluation
+2020-07-08 07:58:34 [START] standardize_features
+2020-07-08 07:58:37 [END] 'standardize_features'   0 min 0.58 GB > 0.58 GB; df size:  0.0 GB; columns: 7814
+2020-07-08 07:58:38 [START] remove_global_timestamp
+2020-07-08 07:58:38 [END] 'remove_global_timestamp'   0 min 0.58 GB > 0.58 GB; df size:  0.0 GB; columns: 7809
+2020-07-08 07:58:39 [START] get_x_y
+2020-07-08 07:58:39 [END] 'get_x_y'   0 min 0.58 GB > 0.58 GB; df size:  0.0 GB;
+2020-07-08 07:58:39 [START] eval
+Configurations: {'sampling_frequency': '30S', 'imputations_technique_str': 'pad', 'imputation_technique_num': 'pad', 'ts_fresh_window_length': 3, 'ts_fresh_window_end': 1, 'ts_fresh_minimal_features': True, 'target_col': 'components.cont.conditions.logic.errorCode', 'target_errorCode': 351, 'balance': True, 'evaluation_metrics': 'accuracy', 'cv': 5, 'ml_algorithm': LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+          verbose=0)}
+Traceback (most recent call last):
+  File "E:\Code\venv\lib\site-packages\joblib\parallel.py", line 797, in dispatch_one_batch
+    tasks = self._ready_batches.get(block=False)
+  File "E:\Programme\lib\queue.py", line 167, in get
+    raise Empty
+_queue.Empty
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\Code\Git\pipeline\code\main.py", line 14, in <module>
+    run_pipeline(configs_pipeline[0], apply_data_extraction=False)
+  File "E:\Code\Git\pipeline\code\pipeline.py", line 81, in run_pipeline
+    scores = eval(df, y, config=config, crossvalidation=c.cv, clf=c.ml_algorithm)
+  File "E:\Code\Git\pipeline\code\monitoring\time_it.py", line 38, in wrap
+    result = f(*args, **kw)
+  File "E:\Code\Git\pipeline\code\ml_evaluation\eval.py", line 30, in eval
+    scores = cross_validate(clf.fit(X,y), X = X, y = y, cv = crossvalidation, scoring = scoring, return_estimator=True) #error_score=np.nan)
+  File "E:\Code\venv\lib\site-packages\sklearn\model_selection\_validation.py", line 230, in cross_validate
+    scores = parallel(
+  File "E:\Code\venv\lib\site-packages\joblib\parallel.py", line 1004, in __call__
+    if self.dispatch_one_batch(iterator):
+  File "E:\Code\venv\lib\site-packages\joblib\parallel.py", line 808, in dispatch_one_batch
+    islice = list(itertools.islice(iterator, big_batch_size))
+  File "E:\Code\venv\lib\site-packages\sklearn\model_selection\_validation.py", line 230, in <genexpr>
+    scores = parallel(
+  File "E:\Code\venv\lib\site-packages\sklearn\model_selection\_split.py", line 330, in split
+    raise ValueError(
+ValueError: Cannot have number of splits n_splits=5 greater than the number of samples: n_samples=2.
+
+Process finished with exit code 1
