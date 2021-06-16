@@ -1,0 +1,200 @@
+import datetime
+import pandas as pd
+import dask.dataframe as dd
+from sklearn.utils import shuffle
+import dask
+import glob
+from tsfresh import extract_features
+from tsfresh.feature_extraction import EfficientFCParameters, MinimalFCParameters
+from monitoring.time_it import timing
+from math import ceil
+import copy
+import random
+from tsfresh.utilities.distribution import LocalDaskDistributor
+
+file_path = '../data/Extracted_Examples_ts_fresh/'
+
+def calculate_window(df, window_start_date, window_end_date, element, minimal_features, window_length, errorcode_col,
+                     extract_negative_examples=False):
+
+    df_window = df.loc[window_start_date:window_end_date].copy()
+
+    global_timestamp = element[0]
+    errorcode_value = element[1]
+
+    df_window['id'] = 1
+
+    if df_window.empty:
+        print('Empty')
+        if extract_negative_examples:
+            return pd.DataFrame(data={'global_timestamp': [global_timestamp]})
+        else:
+            return
+
+    if minimal_features:
+        extracted_features = extract_features(df_window, column_id='id', n_jobs=0,
+                                              default_fc_parameters=MinimalFCParameters())
+    else:
+        extracted_features = extract_features(df_window, column_id='id', column_sort='global_timestamp', n_jobs=0,
+                                              default_fc_parameters=EfficientFCParameters())
+
+    extracted_features['global_timestamp'] = global_timestamp
+    extracted_features[errorcode_col] = errorcode_value
+    extracted_features['samples_used'] = len(df_window)
+    extracted_features['window_start'] = window_start_date
+    extracted_features['window_end'] = window_end_date
+    extracted_features['window_length'] = window_length
+
+    return extracted_features
+
+
+def get_processed_timestamp_list(errorcode, window_end, window_length, negative_examples=True, count=False):
+
+    if negative_examples:
+        processed_files = glob.glob(file_path + 'errorcode_' + str(errorcode) + '_PW_' + str(window_end) + '_RW_' + str(window_length) + '_' + 'neg*.gzip')
+    else:
+        processed_files = glob.glob(file_path + 'errorcode_' + str(errorcode) + '_PW_' + str(window_end) + '_RW_' + str(window_length) + '_' + 'pos*.gzip')
+
+    processed_timestamp_list = []
+
+    if count:
+        if negative_examples:
+            return len(processed_files) * 500
+        else:
+            counter = 0
+            for file in processed_files:
+                df_processed = pd.read_parquet(file)
+                counter = counter + len(df_processed)
+            return counter
+    else:
+        for file in processed_files:
+            df_processed = pd.read_parquet(file)
+            timestamp_list = df_processed['global_timestamp'].to_list()
+            processed_timestamp_list.extend(timestamp_list)
+        return processed_timestamp_list
+
+
+def get_clean_errorcode_column_to_process(error_code_series, errorcode_col, errorcode, window_end, window_length, negative_examples=False):
+
+    if negative_examples:
+        target_errorcode_timestamp_list = list(error_code_series[error_code_series[errorcode_col] == errorcode].index.compute())
+        exclude_windows = []
+        for element in target_errorcode_timestamp_list:
+            exclude_windows.append([element + datetime.timedelta(seconds=(window_end)),
+                                    element + datetime.timedelta(seconds=(window_end + window_length))])
+        df_process = error_code_series
+        df_process = df_process.fillna(method='ffill')
+        df_process = df_process.loc[df_process[errorcode_col] != errorcode].compute()
+        df_process = df_process.dropna()
+        for element in exclude_windows:
+            mask = ~((df_process.index >= element[0]) & (df_process.index <= element[1]))
+            df_process = df_process.loc[mask]
+        return df_process
+
+    else:
+        df_process = error_code_series
+        df_process = df_process.loc[df_process[errorcode_col] == errorcode].compute()
+        target_errorcode_timestamp_list = [element for element in df_process.index]
+        timestamps_to_process = [copy.deepcopy(target_errorcode_timestamp_list[0])]
+        target_errorcode_timestamp_list.pop(0)
+        for element in sorted(target_errorcode_timestamp_list):
+            current_element = timestamps_to_process[-1]
+            time_limit = element - datetime.timedelta(seconds=window_end + window_length)
+            if current_element < time_limit:
+                timestamps_to_process.append(element)
+        df_process = df_process.loc[timestamps_to_process]
+        return df_process
+
+
+
+@timing
+def extract_windows_and_features(df, error_code_series, errorcode_col, errorcode, window_length, window_end, balance_ratio,
+                                 minimal_features = False, v_dask=True):
+    """
+    Generate features with tsfresh (if none or insufficient features have been generated by the function
+    "extract examples") or take tsfresh features which have been generated by the the function "extract examples".
+
+    :param df: dask dataframe
+    :param error_code_series: target errorcode column, which is saved in errorcode_series (String)
+    :param errorcode_col: target errorcode column in dask dataframe (String)
+    :param errorcode: errorcode (Integer)
+    :param window_length: Length of reading window in seconds (Integer)
+    :param window_end: Length of prediction window in seconds (Integer)
+    :param balance_ratio: ratio between failure and non-failure examples
+    :param minimal_features: minimal features parameter of tsfresh (Binary)
+    :param v_dask: use dask dataframe format (Binary)
+    :return: pandas dataframe with generated features
+    """
+
+    tsfresh_error_files = glob.glob(file_path + 'errorcode_' + str(errorcode) + '_PW_' + str(window_end) + '_RW_' + str(window_length) + '_' + 'pos*.gzip')
+    if len(tsfresh_error_files) > 0:
+        df_tsfresh_errors = pd.concat([pd.read_parquet(file) for file in tsfresh_error_files])
+    else:
+        df_tsfresh_errors = pd.DataFrame()
+
+    df_process = get_clean_errorcode_column_to_process(error_code_series, errorcode_col, errorcode,
+                                                       window_end, window_length, negative_examples=False)
+    number_of_errors = len(df_process)
+    errors_extracted = get_processed_timestamp_list(errorcode, window_length=window_length,
+                                                    window_end=window_end, negative_examples=False)
+    df_process = df_process.drop(index=errors_extracted)
+    print('Number of errorCode Features to process: ' + str(len(df_process)))
+
+    number_of_non_errors = int(ceil(number_of_errors * ((1 / balance_ratio) - 1)))
+    count_non_errors_extracted = get_processed_timestamp_list(errorcode, window_length=window_length,
+                                                              window_end=window_end, negative_examples=True, count=True)
+
+    tsfresh_non_error_files = glob.glob(file_path + 'errorcode_' + str(errorcode) + '_PW_' + str(window_end) + '_RW_' + str(window_length) + '_' + 'neg*.gzip')
+    if len(tsfresh_non_error_files) > 0:
+        df_tsfresh_non_errors = pd.DataFrame()
+        while len(df_tsfresh_non_errors) < number_of_non_errors:
+            random_file = random.choice(tsfresh_non_error_files)
+            df_random = pd.read_parquet(random_file)
+            df_tsfresh_non_errors = pd.concat([df_tsfresh_non_errors, df_random])
+            tsfresh_non_error_files.remove(random_file)
+        df_tsfresh_non_errors = df_tsfresh_non_errors.sample(n=number_of_non_errors)
+    else:
+        df_tsfresh_non_errors = pd.DataFrame()
+
+    if count_non_errors_extracted >= number_of_non_errors:
+        df_balance = pd.DataFrame()
+    else:
+        df_balance = get_clean_errorcode_column_to_process(error_code_series, errorcode_col, errorcode,
+                                                           window_end, window_length, negative_examples=True)
+        non_errors_extracted = get_processed_timestamp_list(errorcode, window_length=window_length,
+                                                            window_end=window_end, negative_examples=True)
+        df_balance = df_balance.drop(index=non_errors_extracted)
+        df_balance = df_balance.sample(n=(number_of_non_errors - count_non_errors_extracted))
+    print('Number of Default Features to process: ' + str(len(df_balance)))
+
+    if len(df_process) > 0:
+        df_process = pd.concat([df_process, df_balance])
+    else:
+        df_process = df_balance
+
+    print('Number of total Features to process: ' + str(len(df_process)))
+    df_process = df_process.squeeze('columns')
+    process_list = list(zip(df_process.index, df_process))
+
+
+    lazy_results = []
+    if v_dask:
+        for element in process_list:
+            window_start_date = element[0] - datetime.timedelta(seconds=(window_length + window_end))
+            window_end_date = element[0] - datetime.timedelta(seconds=(window_end))
+            lazy_result = dask.delayed(calculate_window)(df, window_start_date, window_end_date, element,
+                                                         minimal_features, window_length, errorcode_col)
+            lazy_results.append(lazy_result)
+    lazy_results = dask.compute(*lazy_results)
+    if len(lazy_results) > 0:
+        df_tsfresh = pd.concat(lazy_results)
+    else:
+        df_tsfresh = pd.DataFrame()
+    df_tsfresh = pd.concat([df_tsfresh, df_tsfresh_errors, df_tsfresh_non_errors])
+    df_tsfresh = df_tsfresh.reset_index(drop=True)
+    print('Number of Features extraced: ' + str(len(df_tsfresh)))
+
+    return df_tsfresh
+
+
+
